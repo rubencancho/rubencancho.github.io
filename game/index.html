@@ -26,6 +26,14 @@
   var avatar = new THREE.Mesh(body, cover);
 
   scene.add(avatar);
+    
+  // Mano
+  var hand = new THREE.SphereGeometry(50);
+  
+  // Mano derecha
+  var rightHand = new THREE.Mesh(hand, cover);
+  rightHand.position.set(-150, 0, 0);
+  scene.add(rightHand);
 
 
 
