@@ -20,6 +20,12 @@
 
   // ******** START CODING ON THE NEXT LINE ********
   
+  // Cuerpo
+  var body = new THREE.SphereGeometry(100);
+  var cover = new THREE.MeshNormalMaterial(flat);
+  var avatar = new THREE.Mesh(body, cover);
+
+  scene.add(avatar);
 
 
 
