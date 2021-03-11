@@ -39,6 +39,14 @@
   var leftHand = new THREE.Mesh(hand, cover);
   leftHand.position.set(150, 0, 0);
   scene.add(leftHand); 
+    
+  // Pie
+  var foot = new THREE.SphereGeometry(50);
+
+  // Pie derecho
+  var rightFoot = new THREE.Mesh(foot, cover);
+  rightFoot.position.set(-75,-125,0);
+  scene.add(rightFoot);
 
   // Now, show what the camera sees on the screen:
   renderer.render(scene, camera);
