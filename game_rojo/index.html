@@ -35,7 +35,10 @@
   rightHand.position.set(-150, 0, 0);
   scene.add(rightHand);
 
-
+  // Mano izquierda
+  var leftHand = new THREE.Mesh(hand, cover);
+  leftHand.position.set(150, 0, 0);
+  scene.add(leftHand); 
 
   // Now, show what the camera sees on the screen:
   renderer.render(scene, camera);
