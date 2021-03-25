@@ -53,10 +53,20 @@
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
 
+  document.addEventListener('keydown', gestionarTecla);
+    
+  function gestionarTecla(evento) {
+      var codigo = evento.code;
+      
+      if (codigo == 'ArrowLeft') avatar.position.x -= 5;
+      if (codigo == 'ArrowRight') avatar.position.x += 5;
+      if (codigo == 'ArrowUp') avatar.position.z += 5;
+      if (codigo == 'ArrowDown') avatar.position.z -= 5;
+  }
   
   function animate() {
     requestAnimationFrame(animate);
-    avatar.rotation.z = avatar.rotation.z + (Math.random()-0.5)*0.1;
+    //avatar.rotation.z = avatar.rotation.z + (Math.random()-0.5)*0.1;
     renderer.render(scene, camera);
   }
   
