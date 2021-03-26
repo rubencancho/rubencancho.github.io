@@ -58,6 +58,9 @@
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
 
+  let isCartWheeling = true;
+    
+    
   document.addEventListener('keydown', teclaApretada);
     
   function teclaApretada(e) {
@@ -78,6 +81,12 @@
     if (codigo == 'KeyP') {
         avatar.position.x += 5;
     }
+      
+    if (codigo == 'KeyC') {
+        // TODO: Cambiar isCartWheeling a false si es true
+        // y a true si es false.
+        isCartWheeling = !isCartWheeling;
+    }
   }
   
     
@@ -85,8 +94,9 @@
     requestAnimationFrame(animate);
       
     // ANIMACION
-    avatar.rotation.z = avatar.rotation.z + 0.05;
-      
+    if (isCartWheeling) {
+      avatar.rotation.z = avatar.rotation.z + 0.05;
+    }
     renderer.render(scene, camera);
   }
     
