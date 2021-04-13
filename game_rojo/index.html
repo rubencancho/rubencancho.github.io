@@ -10,7 +10,8 @@
   // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 500;
+  camera.position.z = 6000;
+  camera.position.y = 4000;
   scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
@@ -52,6 +53,45 @@
   var leftFoot = new THREE.Mesh(foot, cover);
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
+  
+  function crearArbol(x, z) {
+    var tronco = new THREE.CylinderGeometry(50,50,200);
+    var marron = new THREE.MeshBasicMaterial({color:'sienna'});
+    var tronco_marron = new THREE.Mesh(tronco, marron);
+  
+    var copa = new THREE.SphereGeometry(150);
+    var verde = new THREE.MeshBasicMaterial({color:'forestgreen'});
+    var copa_verde = new THREE.Mesh(copa, verde);
+    
+    copa_verde.position.y = 175;
+    tronco_marron.add(copa_verde);
+    tronco_marron.position.set(x, -75, z);
+    scene.add(tronco_marron);
+  }
+  
+  // TODO: Crear un area rectangular donde hayan árboles plantados
+  
+  function crearCampoArboles(minimo_x, maximo_x, minimo_z, maximo_z, distancia_arboles) {
+    //var distancia_arboles = 800;
+    //var minimo_x = 0;
+    //var maximo_x = 4000;
+    //var minimo_z = -4000;
+    //var maximo_z = 4000;
+    
+    for(var x=minimo_x;x<=maximo_x;x=x+distancia_arboles) {
+        for(var z=minimo_z;z<=maximo_z;z=z+distancia_arboles) {
+            crearArbol(x,z);
+        }
+    }
+  }
+  
+  crearCampoArboles(-4000,4000,-4000,4000,800);
+  
+  crearCampoArboles(-10000,-6000,-10000,6000,400);
+  //crearArbol(200,0);
+  //crearArbol(0,0);
+  //crearArbol(-200,0);
+  camera.lookAt(avatar.position);
 
   document.addEventListener('keydown', gestionarTecla);
     
