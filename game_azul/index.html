@@ -14,7 +14,8 @@
   // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 500;
+  camera.position.z = 5000;
+  camera.position.y = 5000;
   scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
@@ -57,9 +58,34 @@
   var leftFoot = new THREE.Mesh(foot, cover);
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
-
-  let isCartWheeling = true;
     
+  camera.lookAt(avatar.position);
+
+  let isCartWheeling = false;
+
+  function crearArbol(x, z) {
+    var tronco = new THREE.CylinderGeometry(50,50,200);
+    var marron = new THREE.MeshBasicMaterial({color:'sienna'});
+    var tronco_marron = new THREE.Mesh(tronco, marron);
+  
+    var copa = new THREE.SphereGeometry(150);
+    var verde = new THREE.MeshBasicMaterial({color:'forestgreen'});
+    var copa_verde = new THREE.Mesh(copa, verde);
+    
+    copa_verde.position.y = 175;
+    tronco_marron.add(copa_verde);
+    tronco_marron.position.set(x, -75, z);
+    scene.add(tronco_marron);
+  }
+    
+  function crearCampoAleatorio(numArboles, ancho, largo) {      
+    for(var i=0; i< numArboles;i++) {
+        var x = Math.random()*ancho-ancho/2;
+        var z = Math.random()*largo-largo/2;
+        crearArbol(x,z);
+    }   
+  } 
+  crearCampoAleatorio(100, 5000, 10000);
     
   document.addEventListener('keydown', teclaApretada);
     
