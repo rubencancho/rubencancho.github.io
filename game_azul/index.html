@@ -63,6 +63,16 @@
 
   let isCartWheeling = false;
 
+ 
+    
+  function crearCampoAleatorio(numArboles, ancho, largo) {      
+    for(var i=0; i< numArboles;i++) {
+        var x = Math.random()*ancho-ancho/2;
+        var z = Math.random()*largo-largo/2;
+        crearArbol(x,z);
+    }   
+  }
+    
   function crearArbol(x, z) {
     var tronco = new THREE.CylinderGeometry(50,50,200);
     var marron = new THREE.MeshBasicMaterial({color:'sienna'});
@@ -77,15 +87,25 @@
     tronco_marron.position.set(x, -75, z);
     scene.add(tronco_marron);
   }
+
+  function crearFilaArboles(z, minimo_x, maximo_x, paso_x) {
+      for(var x=minimo_x; x<maximo_x; x=x+paso_x) {
+          crearArbol(x, z);
+      }
+      
+  }
     
-  function crearCampoAleatorio(numArboles, ancho, largo) {      
-    for(var i=0; i< numArboles;i++) {
-        var x = Math.random()*ancho-ancho/2;
-        var z = Math.random()*largo-largo/2;
-        crearArbol(x,z);
-    }   
-  } 
-  crearCampoAleatorio(100, 5000, 10000);
+  function crearCampoArboles(minimo_x, minimo_z, maximo_x, maximo_z, paso) {
+     // TODO: añadir bucle para hacer más filas
+    for(var z=minimo_z; z<maximo_z; z=z+paso) {
+        crearFilaArboles(z, minimo_x, maximo_x, paso);
+    } 
+  }
+
+  //crearFilaArboles(0,-5000,5000,500)
+  //crearFilaArboles(-1000,-1000,5000,100)
+    
+  crearCampoArboles(-5000,-5000,5000,5000,1000);
     
   document.addEventListener('keydown', teclaApretada);
     
