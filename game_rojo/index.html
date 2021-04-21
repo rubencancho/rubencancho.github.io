@@ -10,9 +10,8 @@
   // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 6000;
-  camera.position.y = 4000;
-  scene.add(camera);
+  camera.position.z = 500;
+  //scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
   var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -21,12 +20,22 @@
 
   // ******** START CODING ON THE NEXT LINE ********
   
+  // Marcador
+  var marcador = new THREE.Object3D();
+  
+    
   // Cuerpo
   var body = new THREE.SphereGeometry(100);
   var cover = new THREE.MeshNormalMaterial(flat);
   var avatar = new THREE.Mesh(body, cover);
 
-  scene.add(avatar);
+  //avatar.add(camera);
+  // scene.add(camera);
+  //scene.add(avatar);
+  scene.add(marcador);
+  marcador.add(avatar);
+  marcador.add(camera);
+  
     
   // Mano
   var hand = new THREE.SphereGeometry(50);
@@ -87,7 +96,7 @@
   
   crearCampoArboles(-4000,4000,-4000,4000,800);
   
-  crearCampoArboles(-10000,-6000,-10000,6000,400);
+  //crearCampoArboles(-10000,-6000,-10000,6000,400);
   //crearArbol(200,0);
   //crearArbol(0,0);
   //crearArbol(-200,0);
@@ -98,15 +107,15 @@
   function gestionarTecla(evento) {
       var codigo = evento.code;
       
-      if (codigo == 'ArrowLeft') avatar.position.x -= 5;
-      if (codigo == 'ArrowRight') avatar.position.x += 5;
-      if (codigo == 'ArrowUp') avatar.position.z += 5;
-      if (codigo == 'ArrowDown') avatar.position.z -= 5;
+      if (codigo == 'ArrowLeft') marcador.position.x -= 5;
+      if (codigo == 'ArrowRight') marcador.position.x += 5;
+      if (codigo == 'ArrowUp') marcador.position.z += 5;
+      if (codigo == 'ArrowDown') marcador.position.z -= 5;
   }
   
   function animate() {
     requestAnimationFrame(animate);
-    //avatar.rotation.z = avatar.rotation.z + (Math.random()-0.5)*0.1;
+    avatar.rotation.z = avatar.rotation.z + 0.1;
     renderer.render(scene, camera);
   }
   
