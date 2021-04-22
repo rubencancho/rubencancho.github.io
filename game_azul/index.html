@@ -14,9 +14,9 @@
   // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 5000;
-  camera.position.y = 5000;
-  scene.add(camera);
+  camera.position.z = 500;
+  camera.position.y = 0;
+  //scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
   var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -31,7 +31,11 @@
   var cover = new THREE.MeshPhongMaterial({color:"red"});
   var avatar = new THREE.Mesh(body, cover);
 
-  scene.add(avatar);
+  // Creamos un objeto marcador
+  var marcador = new THREE.Object3D();
+  scene.add(marcador);
+  //scene.add(avatar);
+  marcador.add(avatar);
     
   // Mano
   var hand = new THREE.SphereGeometry(50);
@@ -59,8 +63,10 @@
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
     
-  camera.lookAt(avatar.position);
-
+  //avatar.add(camera);
+  //camera.lookAt(avatar.position);
+  marcador.add(camera);
+    
   let isCartWheeling = false;
 
  
@@ -114,18 +120,18 @@
     let codigo = e.code;
       
     if (codigo == 'KeyA') {
-        avatar.position.z += 5; 
+        marcador.position.z += 5; 
     }
     if (codigo == 'KeyQ') {
-        avatar.position.z -= 5;
+        marcador.position.z -= 5;
     }
       
     if (codigo == 'KeyO') {
-        avatar.position.x -= 5;
+        marcador.position.x -= 5;
     }
       
     if (codigo == 'KeyP') {
-        avatar.position.x += 5;
+        marcador.position.x += 5;
     }
       
     if (codigo == 'KeyC') {
