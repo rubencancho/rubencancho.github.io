@@ -11,6 +11,7 @@
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
   camera.position.z = 500;
+  camera.position.y = 0;
   //scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
@@ -34,6 +35,7 @@
   //scene.add(avatar);
   scene.add(marcador);
   marcador.add(avatar);
+
   marcador.add(camera);
   
     
@@ -62,7 +64,11 @@
   var leftFoot = new THREE.Mesh(foot, cover);
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
-  
+    
+  // Asociamos la camara al Avatar
+  avatar.add(camera);
+  //camera.lookAt(avatar);
+    
   function crearArbol(x, z) {
     var tronco = new THREE.CylinderGeometry(50,50,200);
     var marron = new THREE.MeshBasicMaterial({color:'sienna'});
@@ -100,22 +106,49 @@
   //crearArbol(200,0);
   //crearArbol(0,0);
   //crearArbol(-200,0);
-  camera.lookAt(avatar.position);
+  //camera.lookAt(avatar.position);
 
   document.addEventListener('keydown', gestionarTecla);
-    
+  
+  var girando = false;
   function gestionarTecla(evento) {
       var codigo = evento.code;
+      //console.log(codigo);
       
-      if (codigo == 'ArrowLeft') marcador.position.x -= 5;
-      if (codigo == 'ArrowRight') marcador.position.x += 5;
-      if (codigo == 'ArrowUp') marcador.position.z += 5;
-      if (codigo == 'ArrowDown') marcador.position.z -= 5;
+      if (codigo == 'ArrowLeft') marcador.rotation.y += 0.01;
+      if (codigo == 'ArrowRight') marcador.rotation.y -= 0.01;
+      if (codigo == 'ArrowUp') avanzar(marcador, marcador.rotation.y);
+      if (codigo == 'ArrowDown') avanzar(marcador, marcador.rotation.y, true);
+      if (codigo == 'KeyG') {
+          girando = !girando;
+      }
+  }
+    
+  function avanzar(objeto, radianes, atras = false) {
+      // Para que se pueda ir hacia atras con los cursores
+      if (atras) {
+          radianes = radianes + Math.PI;
+      }
+      var grados = (180*radianes / Math.PI);
+      
+      console.log("Grados:" + grados);
+      console.log("Radianes:" + radianes);
+      console.log("X:" + objeto.position.x);
+      console.log("Z:" + objeto.position.z);
+      console.log("Cos(radianes):" + Math.cos(radianes));
+      console.log("Sen(radianes):" + Math.sin(radianes));
+      
+      objeto.position.x += -20*Math.sin(radianes);
+      objeto.position.z += -20*Math.cos(radianes);    
   }
   
+  
+    
   function animate() {
     requestAnimationFrame(animate);
-    avatar.rotation.z = avatar.rotation.z + 0.1;
+    if (girando) {
+        avatar.rotation.z = avatar.rotation.z + 0.1;
+    }
     renderer.render(scene, camera);
   }
   
