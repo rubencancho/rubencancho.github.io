@@ -85,7 +85,7 @@
     var tronco_marron = new THREE.Mesh(tronco, marron);
   
     var copa = new THREE.SphereGeometry(150);
-    var verde = new THREE.MeshBasicMaterial({color:'forestgreen'});
+    var verde = new THREE.MeshBasicMaterial({color:new THREE.Color( 0, Math.random(), 0 )});
     var copa_verde = new THREE.Mesh(copa, verde);
     
     copa_verde.position.y = 175;
@@ -120,18 +120,23 @@
     let codigo = e.code;
       
     if (codigo == 'KeyA') {
-        marcador.position.z += 5; 
+        avanzar(marcador.rotation.y+Math.PI);
     }
     if (codigo == 'KeyQ') {
-        marcador.position.z -= 5;
+        avanzar(marcador.rotation.y);
+        
     }
       
+    // Izquierda
     if (codigo == 'KeyO') {
-        marcador.position.x -= 5;
+        marcador.rotation.y -= 0.05;
+        //marcador.rotation.y = marcador.rotation.y % (2*Math.PI);
     }
       
+    // Derecha
     if (codigo == 'KeyP') {
-        marcador.position.x += 5;
+        marcador.rotation.y += 0.05;
+        //marcador.rotation.y = marcador.rotation.y % (2*Math.PI);
     }
       
     if (codigo == 'KeyC') {
@@ -139,6 +144,17 @@
         // y a true si es false.
         isCartWheeling = !isCartWheeling;
     }
+  }
+    
+  function avanzar(direccion) {
+      direccion += Math.PI/2;
+      console.log("Radianes:" + direccion);
+      console.log("Grados:" + direccion*180/Math.PI);
+      console.log("Sen(direccion):" + Math.sin(direccion));
+      console.log("Cos(direccion):" + Math.cos(direccion));
+      
+      marcador.position.z -= 20*Math.sin(direccion);
+      marcador.position.x += 20*Math.cos(direccion);
   }
   
     
