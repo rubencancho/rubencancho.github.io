@@ -118,17 +118,13 @@
       if (codigo == 'ArrowLeft') marcador.rotation.y += 0.01;
       if (codigo == 'ArrowRight') marcador.rotation.y -= 0.01;
       if (codigo == 'ArrowUp') avanzar(marcador, marcador.rotation.y);
-      if (codigo == 'ArrowDown') avanzar(marcador, marcador.rotation.y, true);
+      if (codigo == 'ArrowDown') avanzar(marcador, marcador.rotation.y+ Math.PI);
       if (codigo == 'KeyG') {
           girando = !girando;
       }
   }
     
-  function avanzar(objeto, radianes, atras = false) {
-      // Para que se pueda ir hacia atras con los cursores
-      if (atras) {
-          radianes = radianes + Math.PI;
-      }
+  function avanzar(objeto, radianes) {
       var grados = (180*radianes / Math.PI);
       
       console.log("Grados:" + grados);
@@ -138,8 +134,23 @@
       console.log("Cos(radianes):" + Math.cos(radianes));
       console.log("Sen(radianes):" + Math.sin(radianes));
       
-      objeto.position.x += -20*Math.sin(radianes);
-      objeto.position.z += -20*Math.cos(radianes);    
+      var inc_x = -20*Math.sin(radianes);
+      var inc_z = -20*Math.cos(radianes);
+      
+      // Movemos el objeto en la dirección que toca
+      objeto.position.x += inc_x;
+      objeto.position.z += inc_z;
+      
+      // Comprobar si hemos colisionado
+      if (hayColision()) {
+          // Si colisionamos deshacemos el paso.
+          objeto.position.x -= inc_x;
+          objeto.position.z -= inc_z;
+      }
+  }
+    
+  function hayColision() {
+      return false;
   }
   
   
