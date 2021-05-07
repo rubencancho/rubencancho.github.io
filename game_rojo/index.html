@@ -10,8 +10,9 @@
   // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 500;
-  camera.position.y = 0;
+  camera.position.z = 2500;
+  camera.position.y = 5000;
+  camera.lookAt(new THREE.Vector3(0,0,0));
   //scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
@@ -33,10 +34,7 @@
   //avatar.add(camera);
   // scene.add(camera);
   //scene.add(avatar);
-  scene.add(marcador);
-  marcador.add(avatar);
 
-  marcador.add(camera);
   
     
   // Mano
@@ -65,9 +63,14 @@
   leftFoot.position.set(75,-125,0);
   avatar.add(leftFoot);
     
-  // Asociamos la camara al Avatar
-  avatar.add(camera);
   //camera.lookAt(avatar);
+
+  marcador.add(avatar);
+  marcador.add(camera);
+  scene.add(marcador);
+    
+  // Lista de objetos que no podemos atravesar.
+  var noPermitido = [];
     
   function crearArbol(x, z) {
     var tronco = new THREE.CylinderGeometry(50,50,200);
@@ -81,6 +84,17 @@
     copa_verde.position.y = 175;
     tronco_marron.add(copa_verde);
     tronco_marron.position.set(x, -75, z);
+      
+    // Añadir círculo de control del límite
+    var circulo = new THREE.CircleGeometry(300);
+    var circulo_t = new THREE.MeshNormalMaterial();
+    var limite = new THREE.Mesh(circulo, circulo_t);
+    
+    limite.position.y = -100;
+    limite.rotation.x = -Math.PI/2;
+    tronco_marron.add(limite);
+    noPermitido.push(limite);
+    
     scene.add(tronco_marron);
   }
   
@@ -95,7 +109,9 @@
     
     for(var x=minimo_x;x<=maximo_x;x=x+distancia_arboles) {
         for(var z=minimo_z;z<=maximo_z;z=z+distancia_arboles) {
-            crearArbol(x,z);
+            if (!((x < 1000 && x >-1000) && (z < 1000 && z >-1000))) {
+               crearArbol(x,z);
+            }
         }
     }
   }
@@ -149,7 +165,16 @@
       }
   }
     
+  // Revisa si el avatar colisiona con un objeto de la lista noPermitido
+  // Devuelve true si hay colision, y false si no la hay.
   function hayColision() {
+      var vector = new THREE.Vector3(0,-1,0);
+      var raycaster = new THREE.Raycaster(marcador.position, vector);
+      
+      var colisionados = raycaster.intersectObjects(noPermitido);
+      
+      if (colisionados.length > 0) return true;
+      
       return false;
   }
   
